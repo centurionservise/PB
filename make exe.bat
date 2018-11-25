@@ -1,1 +1,0 @@
-pyinstaller -F -i "D:\Users\Администратор\Desktop\Python\CODE\PB\icon.ico" privat_bank_gui.py
