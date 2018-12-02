@@ -127,7 +127,11 @@ class SergWindow(QtWidgets.QMainWindow, Ui_Form):
         year=self.calendarWidget.selectedDate().year()
         month=self.calendarWidget.selectedDate().month()
         day=self.calendarWidget.selectedDate().day()
-        date=str(day)+'-'+str(month)+'-'+str(year)
+        if len(str(day))==1:
+            new_day='0'+str(day)
+        else:
+            new_day=str(day)
+        date=new_day+'-'+str(month)+'-'+str(year)
         self.label_calendar.setText(date)
         return date
 
@@ -167,6 +171,7 @@ class SergWindow(QtWidgets.QMainWindow, Ui_Form):
         '''Function return exect records from DB'''
         try:
             record_number=self.horizontalSlider_sel_record.value()
+            # self.db_connect()
             self.cursor.execute("SELECT * FROM Exchange_Rates WHERE id='{}'".format(record_number))
             row=self.cursor.fetchall()
 
@@ -190,6 +195,7 @@ class SergWindow(QtWidgets.QMainWindow, Ui_Form):
             cursor=connector.cursor()
             new_table="CREATE TABLE IF NOT EXISTS Exchange_Rates (id INTEGER,ccy STRING,base_ccy STRING,buy REAL,sale REAL,date TEXT,time TEXT)"
             cursor.execute(new_table)
+            connector.commit()
             return (connector,cursor)
         except sqlite3.DatabaseError as DB_error:
             print("sqlite3.DatabaseError: ", DB_error)
@@ -227,7 +233,7 @@ class SergWindow(QtWidgets.QMainWindow, Ui_Form):
             temp_time=now.strftime("%d-%m-%#Y %H:%M:%S")
             # self.label_date.setText(now.strftime("%d-%m-%#Y"))
             counter=1
-            self.textEdit.clear()
+            # self.textEdit.clear()
             self.fill_table(from_PB,temp_id,now.strftime("%d-%m-%#Y"))
 
             for i in from_PB:
@@ -277,21 +283,26 @@ class SergWindow(QtWidgets.QMainWindow, Ui_Form):
     def fill_table_BD(self,requests_BD):
         # for record in row:
                 # temp_str=str(record[1])+"   "+str(record[2])+"   "+str(record[3])+"   "+str(record[4])
+        # print(requests_BD)
+        if requests_BD==[]:
+            return
+        
+
         for i in requests_BD:
             rec_number=i[0]
             rec_date=i[5]
             if i[1]=='USD':
-                self.label_usd_buy.setText('{:.2f}'.format(float(i[2])))
-                self.label_usd_sale.setText('{:.2f}'.format(float(i[3])))
+                self.label_usd_buy.setText('{:.2f}'.format(float(i[3])))
+                self.label_usd_sale.setText('{:.2f}'.format(float(i[4])))
             elif i[1]=='EUR':
-                self.label_eur_buy.setText('{:.2f}'.format(float(i[2])))
-                self.label_eur_sale.setText('{:.2f}'.format(float(i[3])))
+                self.label_eur_buy.setText('{:.2f}'.format(float(i[3])))
+                self.label_eur_sale.setText('{:.2f}'.format(float(i[4])))
             elif i[1]=='RUR':
-                self.label_rur_buy.setText('{:.2f}'.format(float(i[2])))
-                self.label_rur_sale.setText('{:.2f}'.format(float(i[3])))
+                self.label_rur_buy.setText('{:.2f}'.format(float(i[3])))
+                self.label_rur_sale.setText('{:.2f}'.format(float(i[4])))
             elif i[1]=='BTC':
-                self.label_btc_buy.setText('{:.2f}'.format(float(i[2])))
-                self.label_btc_sale.setText('{:.2f}'.format(float(i[3])))
+                self.label_btc_buy.setText('{:.2f}'.format(float(i[3])))
+                self.label_btc_sale.setText('{:.2f}'.format(float(i[4])))
         self.label_rec_number.setText(str(rec_number))
         self.label_rec_date.setText(rec_date)
     
