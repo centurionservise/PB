@@ -291,18 +291,19 @@ class SergWindow(QtWidgets.QMainWindow, Ui_Form):
         for i in requests_BD:
             rec_number=i[0]
             rec_date=i[5]
+            # print(requests_BD)
             if i[1]=='USD':
-                self.label_usd_buy.setText('{:.2f}'.format(float(i[3])))
-                self.label_usd_sale.setText('{:.2f}'.format(float(i[4])))
+                self.label_usd_buy.setText('{:.2f}'.format(float(i[2])))
+                self.label_usd_sale.setText('{:.2f}'.format(float(i[3])))
             elif i[1]=='EUR':
-                self.label_eur_buy.setText('{:.2f}'.format(float(i[3])))
-                self.label_eur_sale.setText('{:.2f}'.format(float(i[4])))
+                self.label_eur_buy.setText('{:.2f}'.format(float(i[2])))
+                self.label_eur_sale.setText('{:.2f}'.format(float(i[3])))
             elif i[1]=='RUR':
-                self.label_rur_buy.setText('{:.2f}'.format(float(i[3])))
-                self.label_rur_sale.setText('{:.2f}'.format(float(i[4])))
+                self.label_rur_buy.setText('{:.2f}'.format(float(i[2])))
+                self.label_rur_sale.setText('{:.2f}'.format(float(i[3])))
             elif i[1]=='BTC':
-                self.label_btc_buy.setText('{:.2f}'.format(float(i[3])))
-                self.label_btc_sale.setText('{:.2f}'.format(float(i[4])))
+                self.label_btc_buy.setText('{:.2f}'.format(float(i[2])))
+                self.label_btc_sale.setText('{:.2f}'.format(float(i[3])))
         self.label_rec_number.setText(str(rec_number))
         self.label_rec_date.setText(rec_date)
     
